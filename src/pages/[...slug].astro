@@ -1,0 +1,40 @@
+---
+// src/pages/[...slug].astro — client-scoped subpages.
+// getStaticPaths sammelt die pages/*.astro des AKTIVEN Clients; andere Clients
+// liefern keine Pfade → keine Extra-Routen. Static-Routen (index, showcase)
+// gewinnen in Astro vor diesem Catch-all.
+import process from 'node:process';
+import Base from '../layouts/Base.astro';
+import type { LookPreset } from '../lib/theme/schema';
+import { resolveActiveClient } from '../lib/render/active-client';
+import { resolveSlotImage, ASSET_URLS } from '../lib/render/resolve-images';
+import { subpageRoutesForClient } from '../lib/render/subpage-routes';
+import { getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pageMods = import.meta.glob('../clients/*/pages/*.astro');
+  const active = resolveActiveClient(process.env);
+  const routes = subpageRoutesForClient(Object.keys(pageMods), active);
+  const out = [];
+  for (const r of routes) {
+    const loader = pageMods[`../clients/${r.clientId}/pages/${r.slug}.astro`];
+    const mod = (await loader()) as { default: any };
+    out.push({ params: { slug: r.slug }, props: { Component: mod.default } });
+  }
+  return out;
+}
+
+const { Component } = Astro.props as { Component: any };
+const activeClient = resolveActiveClient(process.env);
+
+const presetMods = import.meta.glob('../clients/*/preset.ts');
+const presetPath = `../clients/${activeClient}/preset.ts`;
+const { preset } = (await presetMods[presetPath]()) as { preset: LookPreset };
+
+const entry = await getEntry('site', `${activeClient}/content/de`);
+if (!entry) throw new Error(`Missing content: src/clients/${activeClient}/content/de.json`);
+const faviconUrl = resolveSlotImage(ASSET_URLS, activeClient, entry.data.favicon) ?? undefined;
+---
+<Base title={entry.data.brand} presets={[preset]} activePresetId={preset.meta.id} favicon={faviconUrl}>
+  <Component content={entry.data} client={activeClient} />
+</Base>

@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import ThemeStyle from '../components/theme/ThemeStyle.astro';
+import type { LookPreset } from '../lib/theme/schema';
+import { presets as allPresets, defaultPreset } from '../presets';
+
+interface Props {
+  title?: string;
+  description?: string;
+  presets?: LookPreset[];
+  activePresetId?: string;
+  favicon?: string;
+}
+const {
+  title = 'AI Website Kit',
+  description = 'Showcase der Look-Engine',
+  presets = allPresets,
+  activePresetId = defaultPreset.meta.id,
+  favicon,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="de" data-preset={activePresetId}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {favicon && <link rel="icon" href={favicon} />}
+    <title>{title}</title>
+    <ThemeStyle presets={presets} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

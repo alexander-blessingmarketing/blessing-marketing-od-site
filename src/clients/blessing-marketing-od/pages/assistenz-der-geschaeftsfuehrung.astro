@@ -1,0 +1,237 @@
+---
+// src/clients/blessing-marketing-od/pages/assistenz-der-geschaeftsfuehrung.astro
+// Faktentreu von https://www.blessing-marketing.de/assistenz-der-geschaeftsfuehrung
+// Art-direktet: echtes Hero-Foto (von der Live-Seite), dunkles Prozess-Band,
+// inline Bewerbungsformular (#bewerben) wie im Original, schematische Karte.
+import Shell from '../_shell/Shell.astro';
+import { ASSET_URLS, resolveSlotImage } from '../../../lib/render/resolve-images';
+interface Props { content: any; client: string }
+const { content: c, client } = Astro.props;
+const img = (ref?: string) => (ref ? resolveSlotImage(ASSET_URLS, client, ref) ?? undefined : undefined);
+
+const intro = [
+  'Wir suchen eine motivierte Assistenz der Geschäftsführung (m/w/d) in Teilzeit oder Vollzeit für unser Büro in Starnberg, nur 4 Minuten vom Starnberger Bahnhof entfernt. In dieser zentralen Rolle unterstützt du die Geschäftsführung bei organisatorischen und administrativen Aufgaben und trägst aktiv zur Optimierung interner Prozesse bei.',
+  'Bisher keine Erfahrung als Assistenz? Quereinsteiger? Während der Einarbeitung erlernst du alles, was du zur Ausführung des Jobs benötigst. Vorkenntnisse in diesem Bereich sind also nicht notwendig.',
+];
+const tasks = [
+  'Unterstützung der Geschäftsführung im operativen Tagesgeschäft',
+  'Terminplanung, -koordination und -nachbereitung',
+  'Erstellung von Präsentationen, Protokollen und Berichten',
+  'Kommunikation und Korrespondenz mit internen und externen Partnern',
+  'Organisation und Betreuung von Meetings und Events',
+  'Allgemeine Büroorganisation und Verwaltung',
+];
+const perks = [
+  'Tolle Arbeitsatmosphäre', 'Modernes Büro mit guter Anbindung', 'Eigenverantwortung',
+  'Sicherer Arbeitsplatz', 'Exklusives Fachwissen', 'Attraktive Vergütung',
+];
+const requirements = [
+  'Eine schnelle Auffassungsgabe und eine strukturierte, selbstständige Arbeitsweise',
+  'Organisationstalent und ein hohes Maß an Zuverlässigkeit',
+  'Diskretion und ein souveränes Auftreten',
+  'Sicherer Umgang mit gängigen Office-Anwendungen',
+  'Ausgeprägte Kommunikationsfähigkeiten in Deutsch (fehlerfreie schriftliche und mündliche Ausdrucksweise)',
+  'Idealerweise erste Erfahrung in einer vergleichbaren Position, aber auch Quereinsteiger mit der richtigen Motivation sind willkommen!',
+];
+const steps = [
+  { t: 'Bewerbung', d: 'Klicke dich in unter 60 Sekunden durch unser Bewerbungsquiz und schicke deine Bewerbung ab.' },
+  { t: 'Kurzes Telefonat', d: 'Ein Mitarbeiter aus unserem Team ruft dich an, um dich persönlich kennenzulernen und ein paar allgemeine Fragen zu klären.' },
+  { t: 'Skill Test', d: 'Wir testen die Skills, die du für die Stelle benötigst. Je nach Jobart erhältst du eine Textaufgabe oder es findet ein 1:1-Gespräch statt.' },
+  { t: 'Onboarding & Training', d: 'Du wirst individuell eingearbeitet, damit du schnellstmöglich mit deiner Tätigkeit starten kannst. Du wirst erstaunt sein, wie schnell das geht!' },
+];
+const address = c.map?.address ?? 'Maximilianstraße 17, 82319 Starnberg';
+---
+<Shell content={c} client={client}>
+  <main class="sub">
+    <!-- HERO — echtes Foto von der Live-Job-Seite + Scrim -->
+    <section class="hero job__hero" data-section="job-hero">
+      <img class="hero__img" src={img('assets/job-assistenz-hero.jpg')} alt="Arbeiten bei der Blessing Marketing GmbH" />
+      <div class="hero__scrim"></div>
+      <div class="hero__inner">
+        <p class="eyebrow">Wir suchen DICH als</p>
+        <h1 class="hero__title job__hero-title">Assistenz der Geschäftsführung <span class="job__mwd">(m/w/d)</span></h1>
+        <p class="hero__sub">{intro[0]}</p>
+        <div class="hero__actions">
+          <a class="btn" href="#bewerben">
+            Jetzt für die Stelle bewerben
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUFGABEN + PERKS -->
+    <section class="section section--alt" data-section="job-tasks">
+      <div class="wrap">
+        <p class="job__note" data-reveal>{intro[1]}</p>
+        <div class="job__cols">
+          <div data-reveal>
+            <p class="eyebrow">Deine Aufgaben bei uns</p>
+            <ul class="job__list">{tasks.map((t) => <li>{t}</li>)}</ul>
+          </div>
+          <div data-reveal>
+            <p class="eyebrow">Das erwartet dich</p>
+            <ul class="job__perks">{perks.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANFORDERUNGEN -->
+    <section class="section" data-section="job-requirements">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Das solltest du mitbringen</p>
+        <h2 class="section-title" data-reveal>Dein Profil</h2>
+        <ul class="job__list job__list--two">{requirements.map((r) => <li data-reveal>{r}</li>)}</ul>
+      </div>
+    </section>
+
+    <!-- PROZESS — dunkles Band -->
+    <section class="section section--dark" data-section="job-process">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>So sieht der Bewerbungsprozess aus</p>
+        <h2 class="section-title" data-reveal>Dein Weg zu uns</h2>
+        <div class="job__steps">
+          {steps.map((s, i) => (
+            <div class="job__step" data-reveal>
+              <span class="job__step-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="job__step-title">{s.t}</h3>
+              <p class="job__step-desc">{s.d}</p>
+            </div>
+          ))}
+        </div>
+        <div class="job__cta" data-reveal>
+          <a class="btn btn--light" href="#bewerben">
+            Jetzt bewerben
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEWERBEN — inline Formular (faktentreu, Inline-Bestätigung ohne Backend) -->
+    <section class="section" id="bewerben" data-section="job-apply">
+      <div class="wrap">
+        <div class="apply__grid">
+          <div data-reveal>
+            <p class="eyebrow">Jetzt bewerben</p>
+            <h2 class="section-title">In unter 60 Sekunden</h2>
+            <p class="job__note" style="margin:20px 0 0;border:0;padding:0">Als Assistenz der Geschäftsführung bewerben — schick uns kurz deine Eckdaten, wir melden uns persönlich bei dir.</p>
+          </div>
+          <form class="apply__form" id="applyForm" novalidate data-reveal>
+            <div class="apply__ok" id="applyOk">Danke! Deine Bewerbung ist notiert — wir melden uns in Kürze bei dir.</div>
+            <div class="apply__row">
+              <div class="apply__field"><label for="ap-name">Name *</label><input id="ap-name" name="name" type="text" autocomplete="name" placeholder="Dein Name" required /></div>
+              <div class="apply__field"><label for="ap-mail">E-Mail *</label><input id="ap-mail" name="email" type="email" autocomplete="email" placeholder="name@mail.de" required /></div>
+            </div>
+            <div class="apply__row">
+              <div class="apply__field"><label for="ap-tel">Telefon *</label><input id="ap-tel" name="tel" type="tel" autocomplete="tel" placeholder="+49 …" required /></div>
+              <div class="apply__field"><label for="ap-cv">Lebenslauf oder Anschreiben</label><input id="ap-cv" name="cv" type="file" /></div>
+            </div>
+            <div class="apply__field"><label for="ap-msg">Kommentar *</label><textarea id="ap-msg" name="msg" placeholder="Warum passt du zu uns?" required></textarea></div>
+            <button class="btn" type="submit">Jetzt eintragen</button>
+            <p class="apply__note">Kostenlos &amp; unverbindlich</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- STANDORT — schematische Karte -->
+    <section class="section section--alt" data-section="job-location">
+      <div class="wrap">
+        <div class="map__grid">
+          <div data-reveal>
+            <p class="eyebrow">Standort</p>
+            <h2 class="map__title">Starnberg</h2>
+            <div class="map__addr">
+              <span class="map__pin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <span>{address}</span>
+            </div>
+            <p class="job__loc-note">4 Minuten vom Starnberger Bahnhof entfernt befindet sich unser modernes Büro.</p>
+          </div>
+          <div class="map__card" data-reveal aria-hidden="true">
+            <div class="map__pin-float"></div>
+            <div class="map__chip">{address}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Shell>
+
+<style is:global>
+  .blessing-od-site .job__hero{min-height:min(68vh,600px)}
+  .blessing-od-site .job__hero .hero__title{font-size:clamp(2.2rem,5.2vw,4.3rem);max-width:22ch}
+  .blessing-od-site .job__hero .job__mwd{font-weight:400;color:rgba(255,255,255,.7)}
+  .blessing-od-site .job__hero .hero__sub{max-width:60ch}
+
+  .blessing-od-site .job__note{color:var(--muted);font-size:1.12rem;max-width:64ch;margin-bottom:clamp(34px,4vw,54px);
+    border-left:3px solid var(--accent);padding-left:20px}
+  .blessing-od-site .job__cols{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(32px,5vw,72px);align-items:start}
+  .blessing-od-site .job__list li{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--border);font-size:1.06rem;line-height:1.45}
+  .blessing-od-site .job__list li::before{content:"";flex:0 0 auto;width:8px;height:8px;border-radius:999px;background:var(--accent);margin-top:9px}
+  .blessing-od-site .job__list--two{margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(28px,4vw,56px);max-width:none}
+  .blessing-od-site .job__perks{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+  .blessing-od-site .job__perks li{border:1px solid var(--border);border-radius:999px;padding:9px 18px;font-size:.95rem}
+
+  .blessing-od-site .section--dark{background:var(--ink);color:#fff}
+  .blessing-od-site .section--dark .eyebrow{color:#7cb3e8}
+  .blessing-od-site .section--dark .eyebrow::before{background:#7cb3e8}
+  .blessing-od-site .section--dark .section-title{color:#fff}
+  .blessing-od-site .job__steps{margin-top:clamp(40px,5vw,60px);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.5vw,36px)}
+  .blessing-od-site .job__step{border-top:1px solid var(--border-ink);padding-top:24px}
+  .blessing-od-site .job__step-num{font-family:var(--font-display);font-weight:600;color:#7cb3e8;display:block;margin-bottom:14px}
+  .blessing-od-site .job__step-title{font-family:var(--font-display);font-weight:500;font-size:1.3rem;margin-bottom:10px;color:#fff}
+  .blessing-od-site .job__step-desc{color:rgba(255,255,255,.66);font-size:1rem}
+  .blessing-od-site .section--dark .job__cta{margin-top:clamp(36px,4vw,52px)}
+
+  .blessing-od-site .job__loc-note{color:var(--muted);margin-top:14px;font-size:1.02rem;max-width:36ch}
+
+  /* Bewerben-Formular */
+  .blessing-od-site .apply__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,72px);align-items:start}
+  .blessing-od-site .apply__form{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(22px,3vw,32px)}
+  .blessing-od-site .apply__row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .blessing-od-site .apply__field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:7px}
+  .blessing-od-site .apply__form input,.blessing-od-site .apply__form textarea{
+    width:100%;font-family:var(--font-body);font-size:1rem;color:var(--fg);
+    background:#fff;border:1px solid var(--border);border-radius:6px;padding:12px 14px}
+  .blessing-od-site .apply__form textarea{min-height:104px;resize:vertical;margin-bottom:16px}
+  .blessing-od-site .apply__form input:focus,.blessing-od-site .apply__form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,#fff)}
+  .blessing-od-site .apply__form .btn{width:100%;justify-content:center}
+  .blessing-od-site .apply__note{margin-top:12px;font-size:.85rem;color:var(--muted);text-align:center}
+  .blessing-od-site .apply__ok{display:none;background:color-mix(in srgb,var(--accent) 10%,#fff);border:1px solid var(--accent);border-radius:8px;padding:14px 16px;color:var(--accent-ink);font-weight:500;margin-bottom:18px}
+  .blessing-od-site .apply__ok.show{display:block}
+
+  @media (max-width:980px){
+    .blessing-od-site .job__cols{grid-template-columns:1fr;gap:36px}
+    .blessing-od-site .apply__grid{grid-template-columns:1fr;gap:32px}
+  }
+  @media (max-width:760px){
+    .blessing-od-site .job__steps{grid-template-columns:1fr 1fr}
+    .blessing-od-site .job__list--two{grid-template-columns:1fr}
+    .blessing-od-site .apply__row{grid-template-columns:1fr}
+  }
+  @media (max-width:430px){ .blessing-od-site .job__steps{grid-template-columns:1fr} }
+</style>
+
+<script>
+  (function () {
+    var form = document.getElementById('applyForm') as HTMLFormElement | null;
+    var ok = document.getElementById('applyOk');
+    if (form && ok) {
+      var f = form; var o = ok;
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!f.checkValidity()) { f.reportValidity(); return; }
+        o.classList.add('show');
+        f.querySelectorAll('input, textarea').forEach(function (el) {
+          (el as HTMLInputElement | HTMLTextAreaElement).value = '';
+        });
+        o.setAttribute('tabindex', '-1');
+        (o as HTMLElement).focus({ preventScroll: true });
+      });
+    }
+  })();
+</script>

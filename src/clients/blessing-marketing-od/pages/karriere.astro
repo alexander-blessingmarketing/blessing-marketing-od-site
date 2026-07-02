@@ -1,0 +1,146 @@
+---
+// src/clients/blessing-marketing-od/pages/karriere.astro — faktentreu von /karriere.
+// Art-direktet: dunkles bold-typografisches Hero (statt Unsplash-Stock), prominente
+// Stellen-Liste, Prozess, schematische Karte — Home-Designsprache, kein OD.
+import Shell from '../_shell/Shell.astro';
+interface Props { content: any; client: string }
+const { content: c, client } = Astro.props;
+
+const intro = [
+  'Bei Blessing Marketing arbeiten wir mit einem Team aus A-Playern an spannenden Marketingkampagnen von 60+ Marktführern und aufstrebenden Marken.',
+  'Jetzt suchen wir dich, um noch weiter zu wachsen!',
+];
+const perks = [
+  'Tolle Arbeitsatmosphäre', 'Remote & in Starnberg', 'Eigenverantwortung',
+  'Sicherer Arbeitsplatz', 'Exklusives Fachwissen', 'Attraktive Vergütung',
+];
+const jobs = [
+  { title: 'Assistenz der Geschäftsführung – Teilzeit / Vollzeit (m/w/d)', href: '/assistenz-der-geschaeftsfuehrung', external: false },
+  { title: 'Vertriebsmitarbeiter/in im Innendienst – Vollzeit (m/w/d)', href: 'https://calendly.com/blessingmarketing/vorstellungsgespraech', external: true },
+  { title: 'Vertriebsassistenz – Vollzeit (m/w/d)', href: 'https://calendly.com/blessingmarketing/vorstellungsgespraech', external: true },
+];
+const steps = [
+  { t: 'Bewerbung', d: 'Füge relevante Details hinzu, damit wir sehen, warum du gut zu uns passt.' },
+  { t: 'Kurzes Telefonat', d: 'Ein Mitarbeiter aus unserem Team ruft dich an, um dich persönlich kennenzulernen und ein paar allgemeine Fragen zu klären.' },
+  { t: 'Skill Test', d: 'Wir testen die Skills, die du für die Stelle benötigst. Je nach Jobart erhältst du eine Textaufgabe oder es findet ein 1:1-Gespräch statt.' },
+  { t: 'Onboarding & Training', d: 'Du wirst individuell eingearbeitet, damit du schnellstmöglich mit deiner Tätigkeit starten kannst. Du wirst erstaunt sein, wie schnell das geht!' },
+];
+const address = c.map?.address ?? 'Maximilianstraße 17, 82319 Starnberg';
+---
+<Shell content={c} client={client}>
+  <main class="sub">
+    <!-- HERO — dunkel, bold-typografisch (kein Stock) -->
+    <section class="careers__hero" data-section="careers-hero">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Karriere bei Blessing Marketing</p>
+        <h1 class="careers__hero-title" data-reveal>Werde Teil<br />unseres Teams</h1>
+        {intro.map((p: string) => <p class="careers__hero-lead" data-reveal>{p}</p>)}
+        <div class="careers__hero-cta" data-reveal>
+          <a class="btn btn--light" href="#stellen">
+            Offene Stellen ansehen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <ul class="careers__perks" data-reveal>{perks.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    </section>
+
+    <!-- STELLEN -->
+    <section class="section" id="stellen" data-section="careers-jobs">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>Aktuell offene Stellen</p>
+        <h2 class="section-title" data-reveal>Bewirb dich jetzt</h2>
+        <ul class="careers__jobs">
+          {jobs.map((j) => (
+            <li class="careers__job" data-reveal>
+              <span class="careers__job-title">{j.title}</span>
+              <a class="btn btn--ghost" href={j.href} {...(j.external ? { target: '_blank', rel: 'noopener' } : {})}>
+                Job ansehen
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROZESS -->
+    <section class="section section--alt" data-section="careers-process">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal>So läuft's</p>
+        <h2 class="section-title" data-reveal>Dein Weg zu uns</h2>
+        <div class="careers__steps">
+          {steps.map((s, i) => (
+            <div class="careers__step" data-reveal>
+              <span class="careers__step-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="careers__step-title">{s.t}</h3>
+              <p class="careers__step-desc">{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- STANDORT — schematische Karte -->
+    <section class="section" data-section="careers-location">
+      <div class="wrap">
+        <div class="map__grid">
+          <div data-reveal>
+            <p class="eyebrow">Standort</p>
+            <h2 class="map__title">Starnberg</h2>
+            <div class="map__addr">
+              <span class="map__pin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <span>{address}</span>
+            </div>
+            <p class="careers__loc-note">Remote & vor Ort — 4 Minuten vom Starnberger Bahnhof entfernt befindet sich unser modernes Büro.</p>
+          </div>
+          <div class="map__card" data-reveal aria-hidden="true">
+            <div class="map__pin-float"></div>
+            <div class="map__chip">{address}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Shell>
+
+<style is:global>
+  /* Dunkles Hero (kein Stockbild) */
+  .blessing-od-site .careers__hero{
+    background:var(--ink);color:#fff;
+    min-height:min(74vh,660px);
+    display:flex;align-items:center;
+    padding-top:var(--section-y);padding-bottom:var(--section-y);
+  }
+  .blessing-od-site .careers__hero .eyebrow{color:#7cb3e8}
+  .blessing-od-site .careers__hero .eyebrow::before{background:#7cb3e8}
+  .blessing-od-site .careers__hero-title{
+    font-family:var(--font-display);font-weight:600;
+    font-size:clamp(2.6rem,7vw,5.4rem);line-height:.98;letter-spacing:-.02em;color:#fff;
+  }
+  .blessing-od-site .careers__hero-lead{color:rgba(255,255,255,.82);font-size:1.18rem;max-width:58ch;margin-top:22px}
+  .blessing-od-site .careers__hero-lead + .careers__hero-lead{margin-top:12px}
+  .blessing-od-site .careers__hero-cta{margin-top:34px}
+  .blessing-od-site .careers__perks{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+  .blessing-od-site .careers__perks li{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:9px 18px;font-size:.95rem;color:rgba(255,255,255,.9)}
+
+  /* Stellen */
+  .blessing-od-site .careers__jobs{margin-top:44px;display:flex;flex-direction:column;gap:0}
+  .blessing-od-site .careers__job{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:28px 0;border-top:1px solid var(--border)}
+  .blessing-od-site .careers__job:last-child{border-bottom:1px solid var(--border)}
+  .blessing-od-site .careers__job-title{font-family:var(--font-display);font-weight:500;font-size:clamp(1.2rem,2vw,1.5rem);letter-spacing:-.01em}
+
+  /* Prozess */
+  .blessing-od-site .careers__steps{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.5vw,36px)}
+  .blessing-od-site .careers__step{border-top:1.5px solid var(--fg);padding-top:24px}
+  .blessing-od-site .careers__step-num{font-family:var(--font-display);font-weight:600;color:var(--accent);display:block;margin-bottom:14px}
+  .blessing-od-site .careers__step-title{font-family:var(--font-display);font-weight:500;font-size:1.3rem;margin-bottom:10px}
+  .blessing-od-site .careers__step-desc{color:var(--muted);font-size:1rem}
+
+  .blessing-od-site .careers__loc-note{color:var(--muted);margin-top:14px;font-size:1.02rem;max-width:38ch}
+
+  @media (max-width:760px){ .blessing-od-site .careers__steps{grid-template-columns:1fr 1fr} }
+  @media (max-width:430px){ .blessing-od-site .careers__steps{grid-template-columns:1fr} }
+</style>

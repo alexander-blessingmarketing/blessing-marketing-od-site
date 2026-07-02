@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Bind Tailwind utilities to runtime CSS variables set per [data-preset]. */
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-ink: var(--accent-2-ink);
+  --font-display: var(--preset-font-display);
+  --font-body: var(--preset-font-body);
+  --font-mono: var(--preset-font-mono);
+  --radius-token: var(--radius);
+}
+
+/* Document defaults driven by the active preset's tokens. */
+html {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+}
+body {
+  margin: 0;
+  font-weight: var(--body-weight, 400);
+  font-size: var(--text-base, 1rem);
+  line-height: 1.6;
+}
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--heading-weight, 700);
+  letter-spacing: var(--heading-tracking, normal);
+  text-transform: var(--heading-transform, none);
+  line-height: 1.02;
+  margin: 0;
+}
+
+/* Reveal targets start hidden ONLY when motion is allowed; reduced-motion users see content immediately. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-anim="reveal"] { opacity: 0; }
+}
