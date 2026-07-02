@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import ThemeStyle from '../components/theme/ThemeStyle.astro';
 import type { LookPreset } from '../lib/theme/schema';
-import { presets as allPresets, defaultPreset } from '../presets';
 
 interface Props {
   title?: string;
@@ -12,10 +11,10 @@ interface Props {
   favicon?: string;
 }
 const {
-  title = 'AI Website Kit',
-  description = 'Showcase der Look-Engine',
-  presets = allPresets,
-  activePresetId = defaultPreset.meta.id,
+  title = 'Blessing-Marketing',
+  description = '',
+  presets = [],
+  activePresetId,
   favicon,
 } = Astro.props;
 ---

@@ -1,16 +1,12 @@
 ---
 import type { LookPreset } from '../../lib/theme/schema';
-import { presets as allPresets } from '../../presets';
 import { presetToCss } from '../../lib/theme/compile';
-// Bundle every exemplar font so runtime preset switching has no FOUT gaps.
-import '@fontsource-variable/inter';
 import '@fontsource-variable/oswald';
-import '@fontsource-variable/fraunces';
-import '@fontsource-variable/mulish';
+import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
 
 interface Props { presets?: LookPreset[] }
-const { presets = allPresets } = Astro.props;
+const { presets = [] } = Astro.props;
 const css = presets.map(presetToCss).join('\n');
 ---
 <style is:global set:html={css}></style>

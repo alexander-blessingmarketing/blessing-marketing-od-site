@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import type { LookPreset } from '../lib/theme/schema';
+import { resolveActiveClient } from '../lib/render/active-client';
+import { resolveSlotImage, ASSET_URLS } from '../lib/render/resolve-images';
+import { getEntry } from 'astro:content';
+
+const activeClient = resolveActiveClient();
+
+const presetMods = import.meta.glob('../clients/*/preset.ts');
+const pageMods = import.meta.glob('../clients/*/Page.astro');
+const { preset } = (await presetMods[`../clients/${activeClient}/preset.ts`]()) as { preset: LookPreset };
+const Page = ((await pageMods[`../clients/${activeClient}/Page.astro`]()) as { default: any }).default;
+
+const entry = await getEntry('site', `${activeClient}/content/de`);
+if (!entry) throw new Error(`Missing content: src/clients/${activeClient}/content/de.json`);
+const faviconUrl = resolveSlotImage(ASSET_URLS, activeClient, entry.data.favicon) ?? undefined;
+---
+<Base title={entry.data.brand} presets={[preset]} activePresetId={preset.meta.id} favicon={faviconUrl}>
+  <Page content={entry.data} client={activeClient} />
+</Base>
