@@ -24,7 +24,23 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
+    environment:
+      name: github-pages
+      url: "${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}"
     steps:
+      # GitHub Pages deploys occasionally fail with a transient "try again later".
+      # Attempt once (tolerant polling), then retry once after a short wait.
       - id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+        with:
+          timeout: 600000
+          error_count: 15
+      - if: steps.deployment.outcome == 'failure'
+        run: echo "Pages deploy failed (likely transient); retrying in 30s" && sleep 30
+      - id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000
+          error_count: 15
